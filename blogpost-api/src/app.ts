@@ -2,8 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Logger } from "./logging/logger";
 import { User, UserRepository } from "./database/model/User";
 import { openDatabaseConnection } from "./database/db";
-
-const express = require("express");
+import express from "express";
 
 const app = express();
 app.use(express.json());
@@ -35,7 +34,11 @@ app.get("/user/:id", async (req: Request, res: Response) => {
   const user: User | undefined = await userRepository.getUserById(
     parseInt(req.params.id)
   );
-  res.json(user);
+
+  if (!user) {
+    res.statusCode = 404;
+    res.json({ error: "No user with the given id. " });
+  } else res.json(user);
 });
 
 app.get("/users", async (_: Request, res: Response) => {
@@ -55,6 +58,6 @@ app.get("/users/:username", async (req: Request, res: Response) => {
 
   if (!user) {
     res.statusCode = 404;
-    res.json({ error: "No user with given username. " });
+    res.json({ error: "No user with the given username. " });
   } else res.json(user);
 });
