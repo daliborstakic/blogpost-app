@@ -20,7 +20,24 @@ export function openDatabaseConnection() {
       if (err) {
         Logger.error("Database", "Error creating table.");
       } else {
-        Logger.info("Database", 'Table "users" created successfully.');
+        Logger.info("Database", 'Table "users" initialized successfully.');
+      }
+    }
+  );
+
+  db.run(
+    `CREATE TABLE IF NOT EXISTS blogposts (
+      id INTEGER PRIMARY KEY,
+      title TEXT NOT NULL,
+      content TEXT NOT NULL,
+      userId INTEGER,
+      FOREIGN KEY (userId) REFERENCES users(id)
+    )`,
+    (err) => {
+      if (err) {
+        Logger.error("Database", "Error creating blogposts table.");
+      } else {
+        Logger.info("Database", 'Table "blogposts" initialized successfully.');
       }
     }
   );
