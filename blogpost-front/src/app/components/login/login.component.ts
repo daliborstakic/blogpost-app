@@ -28,10 +28,39 @@ export class LoginComponent {
     ]),
   });
 
-  public ispis: any = null;
+  usernameValidityClasses(): string {
+    if (!this.loginForm.get('username')?.touched) return '';
+
+    return !this.usernameInvalid() && this.loginForm.dirty
+      ? 'is-valid'
+      : 'is-invalid';
+  }
+
+  usernameInvalid(): boolean {
+    return (
+      (this.loginForm.get('username')!.dirty ||
+        this.loginForm.get('username')!.touched) &&
+      this.loginForm.get('username')!.invalid
+    );
+  }
+
+  passwordValidityClasses(): string {
+    if (!this.loginForm.get('password')?.touched) return '';
+
+    return !this.passwordInvalid() && this.loginForm.dirty
+      ? 'is-valid'
+      : 'is-invalid';
+  }
+
+  passwordInvalid(): boolean {
+    return (
+      (this.loginForm.get('password')!.dirty ||
+        this.loginForm.get('password')!.touched) &&
+      this.loginForm.get('password')!.invalid
+    );
+  }
 
   submit() {
     console.log(this.loginForm.value);
-    this.ispis = this.loginForm.value;
   }
 }

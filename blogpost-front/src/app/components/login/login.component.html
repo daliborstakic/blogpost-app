@@ -7,7 +7,21 @@
         id="form2Example1"
         class="form-control"
         formControlName="username"
+        [ngClass]="usernameValidityClasses()"
       />
+      <div *ngIf="usernameInvalid()">
+        <small
+          class="text-danger mt-1"
+          *ngIf="loginForm.get('username')?.errors?.['required']"
+        >
+          Username is required.
+        </small>
+        <small
+          class="text-danger mt-1"
+          *ngIf="loginForm.get('username')?.errors?.['minlength']"
+          >Username must be at least 6 characters long.</small
+        >
+      </div>
     </div>
     <div data-mdb-input-init class="form-outline mb-4">
       <input
@@ -17,6 +31,25 @@
         class="form-control"
         formControlName="password"
       />
+      <div *ngIf="passwordInvalid()">
+        <small
+          class="text-danger mt-1"
+          *ngIf="loginForm.get('password')?.errors?.['required']"
+        >
+          Password is required.
+        </small>
+        <small
+          class="text-danger mt-1"
+          *ngIf="loginForm.get('password')?.errors?.['minlength']"
+          >Password must be at least 6 characters long.</small
+        >
+        <small
+          class="text-danger mt-1"
+          *ngIf="loginForm.get('password')?.errors?.['pattern']"
+          >Password must contain: At least on uppercase letter, at least one
+          lower case letter, a number and a special character.</small
+        >
+      </div>
     </div>
     <button
       type="submit"
@@ -29,4 +62,3 @@
     </button>
   </form>
 </div>
-{{ ispis | json }}
