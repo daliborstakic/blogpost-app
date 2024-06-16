@@ -42,6 +42,42 @@ export function openDatabaseConnection() {
     }
   );
 
+  db.run(
+    `CREATE TABLE IF NOT EXISTS comments (
+      id INTEGER PRIMARY KEY,
+      blogpostId INTEGER,
+      userId INTEGER,
+      content TEXT NOT NULL,
+      FOREIGN KEY (blogpostId) REFERENCES blogposts(id),
+      FOREIGN KEY (userId) REFERENCES users(id)
+    )`,
+    (err) => {
+      if (err) {
+        Logger.error("Database", "Error creating comments table.");
+      } else {
+        Logger.info("Database", 'Table "comments" initialized successfully.');
+      }
+    }
+  );
+
+  db.run(
+    `CREATE TABLE IF NOT EXISTS likes (
+    id INTEGER PRIMARY KEY,
+    postId INTEGER NOT NULL,
+    userId INTEGER NOT NULL,
+    FOREIGN KEY (postId) REFERENCES blogposts(id),
+    FOREIGN KEY (userId) REFERENCES users(id),
+    UNIQUE (postId, userId)
+  )`,
+    (err) => {
+      if (err) {
+        Logger.error("Database", "Error creating likes table.");
+      } else {
+        Logger.info("Database", 'Table "likes" initialized successfully.');
+      }
+    }
+  );
+
   return db;
 }
 

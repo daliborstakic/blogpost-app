@@ -4,6 +4,8 @@ import { User, UserRepository } from "./database/model/User";
 import { openDatabaseConnection } from "./database/db";
 import express from "express";
 import { Blogpost, BlogpostRepository } from "./database/model/Blogpost";
+import { CommentRepository } from "./database/model/Comment";
+import { LikeRepository } from "./database/model/Like";
 
 const app = express();
 app.use(express.json());
@@ -13,6 +15,8 @@ const PORT = process.env.PORT || 3000;
 const db = openDatabaseConnection();
 const userRepository: UserRepository = new UserRepository(db);
 const blogPostsRepository: BlogpostRepository = new BlogpostRepository(db);
+const commentRepository: CommentRepository = new CommentRepository(db);
+const likeRepository: LikeRepository = new LikeRepository(db);
 
 app.listen(PORT, () => {
   Logger.info("Server", `Server is running on http://localhost:${PORT}`);
@@ -89,4 +93,79 @@ app.get("/blog/:blogId", async (req: Request, res: Response) => {
     res.statusCode = 404;
     res.json({ error: "No blog post with the given id." });
   } else res.json(blogPost);
+});
+
+app.post("/like", async (req: Request, res: Response) => {
+  const { postId, userId } = req.body;
+  try {
+    await likeRepository.likePost(postId, userId);
+    res.status(200).send("Post liked successfully.");
+  } catch (err) {
+    res.status(400).send("Unable to like post.");
+  }
+});
+
+app.post("/unlike", async (req: Request, res: Response) => {
+  const { postId, userId } = req.body;
+  try {
+    await likeRepository.unlikePost(postId, userId);
+    res.status(200).send("Post unliked successfully.");
+  } catch (err) {
+    res.status(400).send("Unable to unlike post.");
+  }
+});
+
+app.get("/isLiked", async (req: Request, res: Response) => {
+  const { postId, userId } = req.body;
+  try {
+    const liked = await likeRepository.isLiked(
+      parseInt(postId),
+      parseInt(userId)
+    );
+    res.status(200).json({ liked });
+  } catch (err) {
+    res.status(400).send("Error checking like status.");
+  }
+});
+
+app.get("/likesCount/:postId", async (req: Request, res: Response) => {
+  try {
+    const count = await likeRepository.getLikesCount(
+      parseInt(req.params.postId)
+    );
+    res.status(200).json({ count });
+  } catch (err) {
+    res.status(400).send("Error fetching likes count.");
+  }
+});
+
+app.post("/comment", async (req: Request, res: Response) => {
+  const { blogpostId, userId, content } = req.body;
+  try {
+    await commentRepository.addComment(blogpostId, userId, content);
+    res.status(200).send("Comment added successfully.");
+  } catch (err) {
+    res.status(400).send("Unable to add comment.");
+  }
+});
+
+app.get("/comments/:blogpostId", async (req: Request, res: Response) => {
+  try {
+    const comments = await commentRepository.getCommentsByPost(
+      parseInt(req.params.blogpostId)
+    );
+    res.status(200).json(comments);
+  } catch (err) {
+    res.status(400).send("Error fetching comments.");
+  }
+});
+
+app.delete("/comment/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    await commentRepository.deleteComment(parseInt(id));
+    res.status(200).send("Comment deleted successfully.");
+  } catch (err) {
+    res.status(400).send("Unable to delete comment.");
+  }
 });
