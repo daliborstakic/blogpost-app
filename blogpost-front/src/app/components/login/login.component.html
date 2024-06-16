@@ -1,64 +1,75 @@
-<div class="d-flex text-center align-items-center justify-content-center">
-  <form (ngSubmit)="$event.preventDefault(); submit()" [formGroup]="loginForm">
-    <div data-mdb-input-init class="form-outline mb-4">
-      <input
-        type="name"
-        placeholder="Enter username"
-        id="form2Example1"
-        class="form-control"
-        formControlName="username"
-        [ngClass]="usernameValidityClasses()"
-      />
-      <div *ngIf="usernameInvalid()">
-        <small
-          class="text-danger mt-1"
-          *ngIf="loginForm.get('username')?.errors?.['required']"
-        >
-          Username is required.
-        </small>
-        <small
-          class="text-danger mt-1"
-          *ngIf="loginForm.get('username')?.errors?.['minlength']"
-          >Username must be at least 6 characters long.</small
-        >
-      </div>
-    </div>
-    <div data-mdb-input-init class="form-outline mb-4">
-      <input
-        type="password"
-        id="form2Example2"
-        placeholder="Enter password"
-        class="form-control"
-        formControlName="password"
-      />
-      <div *ngIf="passwordInvalid()">
-        <small
-          class="text-danger mt-1"
-          *ngIf="loginForm.get('password')?.errors?.['required']"
-        >
-          Password is required.
-        </small>
-        <small
-          class="text-danger mt-1"
-          *ngIf="loginForm.get('password')?.errors?.['minlength']"
-          >Password must be at least 6 characters long.</small
-        >
-        <small
-          class="text-danger mt-1"
-          *ngIf="loginForm.get('password')?.errors?.['pattern']"
-          >Password must contain: At least on uppercase letter, at least one
-          lower case letter, a number and a special character.</small
-        >
-      </div>
-    </div>
-    <button
-      type="submit"
-      data-mdb-button-init
-      data-mdb-ripple-init
-      class="btn btn-primary btn-block mb-4"
-      [disabled]="loginForm.invalid"
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4 shadow-sm" style="width: 400px">
+    <h3 class="text-center mb-4">Sign In</h3>
+    <form
+      (ngSubmit)="$event.preventDefault(); submit()"
+      [formGroup]="loginForm"
     >
-      Sign in
-    </button>
-  </form>
+      <div class="mb-3">
+        <input
+          type="text"
+          placeholder="Enter username"
+          id="form2Example1"
+          class="form-control"
+          formControlName="username"
+          [ngClass]="usernameValidityClasses()"
+        />
+        <div *ngIf="usernameInvalid()">
+          <small
+            class="text-danger"
+            *ngIf="loginForm.get('username')?.errors?.['required']"
+          >
+            Username is required.
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="loginForm.get('username')?.errors?.['minlength']"
+          >
+            Username must be at least 6 characters long.
+          </small>
+        </div>
+      </div>
+      <div class="mb-3">
+        <input
+          type="password"
+          id="form2Example2"
+          placeholder="Enter password"
+          class="form-control"
+          formControlName="password"
+        />
+        <div *ngIf="passwordInvalid()">
+          <small
+            class="text-danger"
+            *ngIf="loginForm.get('password')?.errors?.['required']"
+          >
+            Password is required.
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="loginForm.get('password')?.errors?.['minlength']"
+          >
+            Password must be at least 6 characters long.
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="loginForm.get('password')?.errors?.['pattern']"
+          >
+            Password must contain at least one uppercase letter, one lowercase
+            letter, a number, and a special character.
+          </small>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+        [disabled]="loginForm.invalid"
+      >
+        Sign in
+      </button>
+    </form>
+    <div *ngIf="failedLogin" class="text-center mt-3">
+      <small class="text-danger">Login unsuccessful.</small>
+    </div>
+  </div>
 </div>

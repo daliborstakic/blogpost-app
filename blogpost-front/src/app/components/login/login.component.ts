@@ -6,6 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { User } from '../../model/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +18,11 @@ import {
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  public loading = false;
+  public failedLogin = false;
+
+  constructor(public userService: UserService, public router: Router) {}
+
   public loginForm: FormGroup = new FormGroup({
     username: new FormControl<string>('', [
       Validators.required,
@@ -61,6 +69,20 @@ export class LoginComponent {
   }
 
   submit() {
+    this.userService
+      .getUserInfoByUsername(this.loginForm.get('username')?.value)
+      .subscribe((data) => {
+        this.validateLogin(data);
+      });
     console.log(this.loginForm.value);
+  }
+
+  validateLogin(userInfo: User) {
+    if (userInfo.password !== this.loginForm.get('password')?.value) {
+      this.failedLogin = true;
+      return;
+    }
+
+    this.router.navigate(['/home']);
   }
 }
