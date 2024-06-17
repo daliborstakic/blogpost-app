@@ -5,6 +5,7 @@ export interface Comment {
   blogpostId: number;
   userId: number;
   content: string;
+  creationDate: string;
 }
 
 export class CommentRepository {

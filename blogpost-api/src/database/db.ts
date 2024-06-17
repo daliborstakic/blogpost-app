@@ -31,6 +31,7 @@ export function openDatabaseConnection() {
       title TEXT NOT NULL,
       content TEXT NOT NULL,
       userId INTEGER,
+      creationDate TEXT NOT NULL DEFAULT (datetime('now')),
       FOREIGN KEY (userId) REFERENCES users(id)
     )`,
     (err) => {
@@ -48,6 +49,7 @@ export function openDatabaseConnection() {
       blogpostId INTEGER,
       userId INTEGER,
       content TEXT NOT NULL,
+      creationDate TEXT NOT NULL DEFAULT (datetime('now')),
       FOREIGN KEY (blogpostId) REFERENCES blogposts(id),
       FOREIGN KEY (userId) REFERENCES users(id)
     )`,
