@@ -3,7 +3,7 @@ import { Logger } from "./logging/logger";
 import { User, UserRepository } from "./database/model/User";
 import { openDatabaseConnection } from "./database/db";
 import express from "express";
-import { Blogpost, BlogpostRepository } from "./database/model/Blogpost";
+import { BlogpostLikes, BlogpostRepository } from "./database/model/Blogpost";
 import { CommentRepository } from "./database/model/Comment";
 import { LikeRepository } from "./database/model/Like";
 
@@ -69,7 +69,7 @@ app.get("/users/:username", async (req: Request, res: Response) => {
 });
 
 app.get("/blogs/:userId", async (req: Request, res: Response) => {
-  const blogPosts: Blogpost[] =
+  const blogPosts: BlogpostLikes[] =
     await blogPostsRepository.getAllBlogpostsByUserId(
       parseInt(req.params.userId)
     );
@@ -86,7 +86,7 @@ app.post("/blog", async (req: Request, res: Response) => {
 });
 
 app.get("/blog/:blogId", async (req: Request, res: Response) => {
-  const blogPost: Blogpost | undefined =
+  const blogPost: BlogpostLikes | undefined =
     await blogPostsRepository.getBlogpostById(parseInt(req.params.blogId));
 
   if (!blogPost) {
