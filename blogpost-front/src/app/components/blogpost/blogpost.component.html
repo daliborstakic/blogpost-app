@@ -1,0 +1,8 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <p class="card-text">{{ blogpost.content }}</p>
+    <button class="btn btn-primary" (click)="toggleLike()">
+      {{ liked ? "Unlike" : "Like" }} ({{ blogpost.likes }})
+    </button>
+  </div>
+</div>
