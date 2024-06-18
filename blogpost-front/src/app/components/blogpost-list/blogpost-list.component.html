@@ -1,0 +1,10 @@
+<div class="container mt-4">
+  <div *ngIf="(blogPosts | async)?.length ?? 0 > 0; else noPosts">
+    <div *ngFor="let post of blogPosts | async" class="card mb-3">
+      <app-blogpost [blogpost]="post"></app-blogpost>
+    </div>
+  </div>
+  <ng-template #noPosts>
+    <div class="alert alert-info" role="alert">No blog posts available.</div>
+  </ng-template>
+</div>
