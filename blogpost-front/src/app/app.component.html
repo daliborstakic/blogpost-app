@@ -1,7 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="showNavbar">
-  <div
-    class="container-fluid d-flex justify-content-between align-items-center"
-  >
+<nav
+  class="navbar sticky-top navbar-expand-lg navbar-light bg-light"
+  *ngIf="showNavbar"
+>
+  <div class="container-fluid">
     <div class="d-flex justify-content-start flex-grow-1">
       <ul class="navbar-nav d-flex justify-content-center">
         <li class="nav-item mx-2">
@@ -16,14 +17,23 @@
         </li>
       </ul>
     </div>
-    <div>
+    <div class="d-flex justify-content-end align-items-center">
       <a
-        class="btn btn-primary mr-3"
+        class="btn btn-primary mx-2"
         routerLink="/create-post"
         routerLinkActive="active"
         style="color: white"
         >Create Post</a
       >
+      <form class="form-inline d-flex my-2 my-lg-0">
+        <input
+          class="form-control"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-success ml-5" type="submit">Search</button>
+      </form>
     </div>
   </div>
 </nav>
