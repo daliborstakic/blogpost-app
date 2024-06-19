@@ -13,27 +13,6 @@ export class CommentRepository {
 
   constructor(db: sqlite3.Database) {
     this.db = db;
-    this.initializeTable();
-  }
-
-  private initializeTable() {
-    this.db.run(
-      `CREATE TABLE IF NOT EXISTS comments (
-        id INTEGER PRIMARY KEY,
-        blogpostId INTEGER,
-        userId INTEGER,
-        content TEXT NOT NULL,
-        FOREIGN KEY (blogpostId) REFERENCES blogposts(id),
-        FOREIGN KEY (userId) REFERENCES users(id)
-      )`,
-      (err) => {
-        if (err) {
-          console.error("Error creating comments table.", err);
-        } else {
-          console.log('Table "comments" initialized successfully.');
-        }
-      }
-    );
   }
 
   public addComment(
