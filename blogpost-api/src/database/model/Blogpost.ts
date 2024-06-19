@@ -35,10 +35,11 @@ export class BlogpostRepository {
   public getBlogPostsWithLikes(): Promise<BlogpostLikes[]> {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT blogposts.id, blogposts.title, blogposts.content, blogposts.userId, COUNT(likes.id) as likes
+        SELECT blogposts.id, blogposts.title, blogposts.content, blogposts.userId, blogposts.creationDate, COUNT(likes.id) as likes
         FROM blogposts
         LEFT JOIN likes ON blogposts.id = likes.postId
         GROUP BY blogposts.id
+        ORDER BY blogposts.creationDate DESC
       `;
       this.db.all(query, [], (err: Error, rows: BlogpostLikes[]) => {
         if (err) {
@@ -53,7 +54,7 @@ export class BlogpostRepository {
   public getAllBlogpostsByUserId(userId: number): Promise<BlogpostLikes[]> {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT blogposts.id, blogposts.title, blogposts.content, blogposts.userId, COUNT(likes.id) as likes
+        SELECT blogposts.id, blogposts.title, blogposts.content, blogposts.userId, blogposts.creationDate, COUNT(likes.id) as likes
         FROM blogposts
         LEFT JOIN likes ON blogposts.id = likes.postId
         WHERE blogposts.userId = ?
@@ -72,7 +73,7 @@ export class BlogpostRepository {
   public getBlogpostById(id: number): Promise<BlogpostLikes | undefined> {
     return new Promise((resolve, reject) => {
       const query = `
-        SELECT blogposts.id, blogposts.title, blogposts.content, blogposts.userId, COUNT(likes.id) as likes
+        SELECT blogposts.id, blogposts.title, blogposts.content, blogposts.userId, blogposts.creationDate, COUNT(likes.id) as likes
         FROM blogposts
         LEFT JOIN likes ON blogposts.id = likes.postId
         WHERE blogposts.id = ?

@@ -68,6 +68,16 @@ app.get("/users/:username", async (req: Request, res: Response) => {
   } else res.json(user);
 });
 
+app.get("/blogs", async (req: Request, res: Response) => {
+  const blogPosts: BlogpostLikes[] =
+    await blogPostsRepository.getBlogPostsWithLikes();
+
+  if (blogPosts.length === 0) {
+    res.statusCode = 404;
+    res.json({ error: "There are no blog posts." });
+  } else res.json(blogPosts);
+});
+
 app.get("/blogs/:userId", async (req: Request, res: Response) => {
   const blogPosts: BlogpostLikes[] =
     await blogPostsRepository.getAllBlogpostsByUserId(
