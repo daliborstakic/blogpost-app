@@ -9,6 +9,7 @@ import {
 import { UserService } from '../../services/user.service';
 import { User } from '../../model/user';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,11 @@ export class LoginComponent {
   public loading = false;
   public failedLogin = false;
 
-  constructor(public userService: UserService, public router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private authService: AuthenticationService
+  ) {}
 
   public loginForm: FormGroup = new FormGroup({
     username: new FormControl<string>('', [
@@ -83,6 +88,7 @@ export class LoginComponent {
       return;
     }
 
+    this.authService.login(userInfo);
     this.router.navigate(['/home']);
   }
 }
