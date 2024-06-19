@@ -4,4 +4,5 @@ export interface Blogpost {
   content: string;
   userId: number;
   likes: number;
+  creationDate: string;
 }

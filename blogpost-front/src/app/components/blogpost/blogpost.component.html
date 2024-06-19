@@ -1,8 +1,15 @@
-<div class="card mb-3">
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">{{ blogpost.title }}</h5>
+    <small class="text-muted">Created by: {{ author?.username }}</small>
+  </div>
   <div class="card-body">
-    <p class="card-text">{{ blogpost.content }}</p>
+    <p class="card-text blogpost-content">{{ blogpost.content }}</p>
+  </div>
+  <div class="card-footer d-flex justify-content-between align-items-center">
     <button class="btn btn-primary" (click)="toggleLike()">
       {{ liked ? "Unlike" : "Like" }} ({{ blogpost.likes }})
     </button>
+    <small class="text-muted">{{ blogpost.creationDate }}</small>
   </div>
 </div>
