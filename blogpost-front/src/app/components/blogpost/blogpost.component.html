@@ -12,4 +12,10 @@
     </button>
     <small class="text-muted">{{ blogpost.creationDate }}</small>
   </div>
+  <div class="card-header">
+    <h5 class="card-title">Comments</h5>
+  </div>
+  <div class="card-body">
+    <app-comment-list [blogpostId]="blogpost.id"></app-comment-list>
+  </div>
 </div>

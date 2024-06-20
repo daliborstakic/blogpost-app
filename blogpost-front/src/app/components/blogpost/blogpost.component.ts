@@ -3,11 +3,12 @@ import { Blogpost } from '../../model/blogpost';
 import { UserService } from '../../services/user.service';
 import { User } from '../../model/user';
 import { Observable } from 'rxjs';
+import { CommentListComponent } from '../comment-list/comment-list.component';
 
 @Component({
   selector: 'app-blogpost',
   standalone: true,
-  imports: [],
+  imports: [CommentListComponent],
   templateUrl: './blogpost.component.html',
   styleUrl: './blogpost.component.css',
 })

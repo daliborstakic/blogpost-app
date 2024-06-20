@@ -1,0 +1,12 @@
+<div class="d-flex align-items-center">
+  <ng-container *ngIf="comments.length === 0">
+    <p style="padding: 0; margin: 0">
+      No comments yet. Be the first to comment!
+    </p>
+  </ng-container>
+  <ng-container *ngIf="comments.length > 0">
+    <div *ngFor="let comment of comments">
+      <app-comment [comment]="comment"></app-comment>
+    </div>
+  </ng-container>
+</div>
