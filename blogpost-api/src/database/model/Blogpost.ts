@@ -88,4 +88,28 @@ export class BlogpostRepository {
       });
     });
   }
+
+  public searchBlogposts(query: string): Promise<BlogpostLikes[]> {
+    return new Promise((resolve, reject) => {
+      const searchQuery = `%${query}%`;
+      const sql = `
+        SELECT blogposts.id, blogposts.title, blogposts.content, blogposts.userId, blogposts.creationDate, COUNT(likes.id) as likes
+        FROM blogposts
+        LEFT JOIN likes ON blogposts.id = likes.postId
+        WHERE blogposts.title LIKE ? OR blogposts.content LIKE ?
+        GROUP BY blogposts.id
+      `;
+      this.db.all(
+        sql,
+        [searchQuery, searchQuery],
+        (err: Error, rows: BlogpostLikes[]) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+        }
+      );
+    });
+  }
 }

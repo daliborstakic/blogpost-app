@@ -90,6 +90,20 @@ app.get("/blogs/:userId", async (req: Request, res: Response) => {
   } else res.json(blogPosts);
 });
 
+app.get("/blogs-search/:query", async (req: Request, res: Response) => {
+  try {
+    const blogposts: BlogpostLikes[] =
+      await blogPostsRepository.searchBlogposts(req.params.query);
+
+    if (blogposts.length === 0) {
+      res.statusCode = 404;
+      res.status(200).json({ error: "There are no blog posts." });
+    } else res.json(blogposts);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 app.post("/blog", async (req: Request, res: Response) => {
   const blogPostId: number = await blogPostsRepository.createBlogpost(req.body);
   res.json(blogPostId);
@@ -115,7 +129,7 @@ app.post("/like", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/unlike", async (req: Request, res: Response) => {
+app.delete("/unlike", async (req: Request, res: Response) => {
   const { postId, userId } = req.body;
   try {
     await likeRepository.unlikePost(postId, userId);
@@ -125,14 +139,14 @@ app.post("/unlike", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/isLiked", async (req: Request, res: Response) => {
+app.post("/isLiked", async (req: Request, res: Response) => {
   const { postId, userId } = req.body;
   try {
     const liked = await likeRepository.isLiked(
       parseInt(postId),
       parseInt(userId)
     );
-    res.status(200).json({ liked });
+    res.status(200).json(liked);
   } catch (err) {
     res.status(400).send("Error checking like status.");
   }
@@ -150,10 +164,9 @@ app.get("/likesCount/:postId", async (req: Request, res: Response) => {
 });
 
 app.post("/comment", async (req: Request, res: Response) => {
-  const { blogpostId, userId, content } = req.body;
   try {
-    await commentRepository.addComment(blogpostId, userId, content);
-    res.status(200).send("Comment added successfully.");
+    const commentId = await commentRepository.addComment(req.body);
+    res.json(commentId);
   } catch (err) {
     res.status(400).send("Unable to add comment.");
   }
@@ -171,11 +184,23 @@ app.get("/comments/:blogpostId", async (req: Request, res: Response) => {
 });
 
 app.delete("/comment/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
   try {
-    await commentRepository.deleteComment(parseInt(id));
-    res.status(200).send("Comment deleted successfully.");
+    const commentId = parseInt(req.params.id, 10);
+    if (isNaN(commentId)) {
+      return res.status(400).json({ message: "Invalid comment ID." });
+    }
+
+    const changes = await commentRepository.deleteComment(commentId);
+
+    if (changes === 0) {
+      return res.status(404).json({ message: "Comment not found." });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Comment deleted successfully.", commentId });
   } catch (err) {
-    res.status(400).send("Unable to delete comment.");
+    console.error(err);
+    res.status(500).json({ message: "Unable to delete comment." });
   }
 });
