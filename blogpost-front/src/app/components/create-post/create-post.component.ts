@@ -26,7 +26,7 @@ export class CreatePostComponent implements OnInit {
     title: new FormControl('', [Validators.required]),
     content: new FormControl('', [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(1000),
     ]),
   });
 
