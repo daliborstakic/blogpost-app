@@ -1,7 +1,18 @@
 <div class="comment mb-2">
   <p>
-    <strong>{{ author }}</strong
-    >: {{ comment.content }}
+    <app-mini-profile
+      *ngIf="author !== undefined"
+      [user]="author"
+      [triggerElementRef]="profileTrigger"
+    ></app-mini-profile>
+    <small class="text-muted">{{ comment.creationDate }}</small
+    >&nbsp;<strong #profileTrigger>{{ author?.username }}</strong
+    >:&nbsp;{{ comment.content }}&nbsp;<button
+      *ngIf="currentUser?.username === author?.username"
+      class="btn btn-danger btn-sm"
+      (click)="deleteComment()"
+    >
+      Delete
+    </button>
   </p>
-  <small class="text-muted">{{ comment.creationDate }}</small>
 </div>
