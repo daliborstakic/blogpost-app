@@ -1,0 +1,14 @@
+<form
+  (ngSubmit)="$event.preventDefault(); submit()"
+  [formGroup]="addCommentGroup"
+  class="form-inline d-flex my-2 my-lg-0"
+  action=""
+>
+  <input
+    class="form-control me-2"
+    type="text"
+    placeholder="Write comment here"
+    formControlName="comment"
+  />
+  <button type="submit" class="btn btn-success">Comment</button>
+</form>
