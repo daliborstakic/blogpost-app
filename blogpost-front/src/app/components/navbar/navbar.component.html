@@ -1,0 +1,85 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-start flex-grow-1">
+      <ul class="navbar-nav d-flex justify-content-center">
+        <li class="nav-item mx-2">
+          <a class="nav-link" routerLink="/home" routerLinkActive="active"
+            >The Blogpost</a
+          >
+        </li>
+        <li class="nav-item dropdown" dropdown>
+          <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            role="button"
+            dropdownToggle
+          >
+            {{ currentUser?.name }}
+          </a>
+          <ul
+            *dropdownMenu
+            class="dropdown-menu shadow"
+            aria-labelledby="navbarDropdown"
+          >
+            <li>
+              <a class="dropdown-item" #profileTrigger>Profile</a>
+            </li>
+            <ng-container *ngIf="currentUser">
+              <app-mini-profile
+                [user]="currentUser"
+                [triggerElementRef]="profileTrigger"
+              ></app-mini-profile>
+            </ng-container>
+            <li>
+              <a
+                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover dropdown-item"
+                role="button"
+                (click)="logout()"
+                routerLinkActive="active"
+                >Logout</a
+              >
+            </li>
+            <li>
+              <a
+                class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover dropdown-item"
+                role="button"
+                routerLink="/my-blogs"
+                routerLinkActive="active"
+                >My Blogposts</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="d-flex justify-content-end align-items-center">
+      <a
+        class="btn btn-primary mx-2"
+        routerLink="/create-post"
+        routerLinkActive="active"
+        style="color: white"
+        >Create Post</a
+      >
+      <form
+        (submit)="$event.preventDefault(); submit()"
+        [formGroup]="searchGroup"
+        class="form-inline d-flex my-2 my-lg-0"
+      >
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          formControlName="query"
+        />
+        <button
+          [disabled]="searchGroup.invalid"
+          class="btn btn-success"
+          type="submit"
+        >
+          Search
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
