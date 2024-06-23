@@ -12,9 +12,9 @@
           id="form2Example1"
           class="form-control"
           formControlName="username"
-          [ngClass]="usernameValidityClasses()"
+          [ngClass]="fieldValidityClasses('username')"
         />
-        <div *ngIf="usernameInvalid()">
+        <div *ngIf="fieldValid('username')">
           <small
             class="text-danger"
             *ngIf="loginForm.get('username')?.errors?.['required']"
@@ -36,8 +36,9 @@
           placeholder="Enter password"
           class="form-control"
           formControlName="password"
+          [ngClass]="fieldValidityClasses('password')"
         />
-        <div *ngIf="passwordInvalid()">
+        <div *ngIf="fieldValid('password')">
           <small
             class="text-danger"
             *ngIf="loginForm.get('password')?.errors?.['required']"
@@ -67,7 +68,16 @@
       >
         Sign in
       </button>
+      <p class="text-center mt-3 mb-0">
+        Don't have an account?
+        <a
+          class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+          routerLink="/register"
+          >Register here</a
+        >
+      </p>
     </form>
+
     <div *ngIf="failedLogin" class="text-center mt-3">
       <small class="text-danger">Login unsuccessful.</small>
     </div>

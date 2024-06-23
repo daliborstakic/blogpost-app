@@ -8,13 +8,13 @@ import {
 } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User } from '../../model/user';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -41,35 +41,19 @@ export class LoginComponent {
     ]),
   });
 
-  usernameValidityClasses(): string {
-    if (!this.loginForm.get('username')?.touched) return '';
+  fieldValidityClasses(fieldName: string): string {
+    if (!this.loginForm.get(fieldName)?.touched) return '';
 
-    return !this.usernameInvalid() && this.loginForm.dirty
+    return !this.fieldValid(fieldName) && this.loginForm.dirty
       ? 'is-valid'
       : 'is-invalid';
   }
 
-  usernameInvalid(): boolean {
+  fieldValid(fieldName: string): boolean {
     return (
-      (this.loginForm.get('username')!.dirty ||
-        this.loginForm.get('username')!.touched) &&
-      this.loginForm.get('username')!.invalid
-    );
-  }
-
-  passwordValidityClasses(): string {
-    if (!this.loginForm.get('password')?.touched) return '';
-
-    return !this.passwordInvalid() && this.loginForm.dirty
-      ? 'is-valid'
-      : 'is-invalid';
-  }
-
-  passwordInvalid(): boolean {
-    return (
-      (this.loginForm.get('password')!.dirty ||
-        this.loginForm.get('password')!.touched) &&
-      this.loginForm.get('password')!.invalid
+      (this.loginForm.get(fieldName)!.dirty ||
+        this.loginForm.get(fieldName)!.touched) &&
+      this.loginForm.get(fieldName)!.invalid
     );
   }
 
