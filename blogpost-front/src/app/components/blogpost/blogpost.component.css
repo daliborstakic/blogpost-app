@@ -1,0 +1,4 @@
+.profile-trigger {
+  cursor: pointer; /* Change cursor to pointer on hover */
+  text-decoration: underline; /* Underline text on hover */
+}
