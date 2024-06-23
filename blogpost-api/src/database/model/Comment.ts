@@ -15,21 +15,21 @@ export class CommentRepository {
     this.db = db;
   }
 
-  public addComment(
-    blogpostId: number,
-    userId: number,
-    content: string
-  ): Promise<void> {
+  public addComment(comment: Comment): Promise<number> {
     return new Promise((resolve, reject) => {
-      const query = `INSERT INTO comments (blogpostId, userId, content) VALUES (?, ?, ?)`;
+      const insertQuery = `
+        INSERT INTO comments (blogpostId, userId, content)
+        VALUES (?, ?, ?);
+      `;
+
       this.db.run(
-        query,
-        [blogpostId, userId, content],
+        insertQuery,
+        [comment.blogpostId, comment.userId, comment.content],
         function (err: Error | null) {
           if (err) {
             reject(err);
           } else {
-            resolve();
+            resolve(this.lastID);
           }
         }
       );
@@ -49,14 +49,14 @@ export class CommentRepository {
     });
   }
 
-  public deleteComment(id: number): Promise<void> {
+  public deleteComment(id: number): Promise<number> {
     return new Promise((resolve, reject) => {
       const query = `DELETE FROM comments WHERE id = ?`;
       this.db.run(query, [id], function (err: Error | null) {
         if (err) {
           reject(err);
         } else {
-          resolve();
+          resolve(this.changes);
         }
       });
     });
