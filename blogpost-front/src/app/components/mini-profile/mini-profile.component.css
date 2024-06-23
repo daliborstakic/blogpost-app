@@ -1,0 +1,13 @@
+.mini-profile {
+  display: none;
+  background: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  padding: 10px;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.mini-profile.show {
+  display: block;
+}
