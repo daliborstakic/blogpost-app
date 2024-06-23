@@ -1,43 +1,11 @@
-<nav
-  class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark"
-  *ngIf="showNavbar"
->
-  <div class="container-fluid">
-    <div class="d-flex justify-content-start flex-grow-1">
-      <ul class="navbar-nav d-flex justify-content-center">
-        <li class="nav-item mx-2">
-          <a class="nav-link" routerLink="/home" routerLinkActive="active"
-            >The Blogpost</a
-          >
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" routerLink="/logout" routerLinkActive="active"
-            >Logout</a
-          >
-        </li>
-      </ul>
-    </div>
-    <div class="d-flex justify-content-end align-items-center">
-      <a
-        class="btn btn-primary mx-2"
-        routerLink="/create-post"
-        routerLinkActive="active"
-        style="color: white"
-        >Create Post</a
-      >
-      <form class="form-inline d-flex my-2 my-lg-0">
-        <input
-          class="form-control"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-success ml-5" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-
+<app-navbar *ngIf="showNavbar"></app-navbar>
 <div class="container mt-4">
   <router-outlet></router-outlet>
 </div>
+<button
+  class="btn btn-primary btn-floating"
+  [class.show]="showScrollButton"
+  (click)="scrollToTop()"
+>
+  Scroll Up
+</button>
