@@ -26,6 +26,18 @@ export class BlogpostService {
       .pipe(catchError(this.handleError));
   }
 
+  getBlogpostByUser(userId: number): Observable<Blogpost[]> {
+    return this.http
+      .get<Blogpost[]>(`/api/blogs/${userId}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  searchBlogposts(searchQuery: string): Observable<Blogpost[]> {
+    return this.http
+      .get<Blogpost[]>(`/api/blogs-search/${searchQuery}`)
+      .pipe(catchError(this.handleError));
+  }
+
   addBlogpost(blogpost: BlogpostDTO): Observable<any> {
     return this.http.post('/api/blog', blogpost).pipe(
       tap(() => this.reloadBlogposts()),
