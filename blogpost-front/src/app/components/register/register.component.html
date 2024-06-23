@@ -1,0 +1,121 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4 shadow-sm" style="width: 400px">
+    <h3 class="text-center mb-4">Register</h3>
+    <form
+      (ngSubmit)="$event.preventDefault(); onSubmit()"
+      [formGroup]="registerForm"
+    >
+      <div class="mb-3">
+        <input
+          type="text"
+          placeholder="Enter username"
+          class="form-control"
+          formControlName="username"
+          [ngClass]="fieldValidityClasses('username')"
+        />
+        <div *ngIf="fieldInvalid('username')">
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('username')?.errors?.['required']"
+          >
+            Username is required.
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('username')?.errors?.['minlength']"
+          >
+            Username must be at least 6 characters long.
+          </small>
+        </div>
+      </div>
+      <div class="mb-3">
+        <input
+          type="password"
+          placeholder="Enter password"
+          class="form-control"
+          formControlName="password"
+          [ngClass]="fieldValidityClasses('password')"
+        />
+        <div *ngIf="fieldInvalid('password')">
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('password')?.errors?.['required']"
+          >
+            Password is required.
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('password')?.errors?.['minlength']"
+          >
+            Password must be at least 6 characters long.
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('password')?.errors?.['pattern']"
+          >
+            Password must contain at least one uppercase letter, one lowercase
+            letter, a number, and a special character.
+          </small>
+        </div>
+      </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          placeholder="Enter name"
+          class="form-control"
+          formControlName="name"
+          [ngClass]="fieldValidityClasses('name')"
+        />
+        <div *ngIf="fieldInvalid('name')">
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('name')?.errors?.['required']"
+          >
+            Name is required.
+          </small>
+        </div>
+      </div>
+      <div class="mb-3">
+        <input
+          type="number"
+          placeholder="Enter age"
+          class="form-control"
+          formControlName="age"
+          [ngClass]="fieldValidityClasses('age')"
+        />
+        <div *ngIf="fieldInvalid('age')">
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('age')?.errors?.['required']"
+          >
+            Age is required.
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="registerForm.get('age')?.errors?.['min']"
+          >
+            Age must be a positive number.
+          </small>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+        [disabled]="registerForm.invalid"
+      >
+        Register
+      </button>
+      <p class="text-center mt-3 mb-0">
+        Already have an account?
+        <a
+          class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+          routerLink="/login"
+          >Sign in here</a
+        >
+      </p>
+    </form>
+    <div *ngIf="failedRegister" class="text-center mt-3">
+      <small class="text-danger">Registration unsuccessful.</small>
+    </div>
+  </div>
+</div>
