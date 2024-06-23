@@ -1,0 +1,7 @@
+<h3>
+  Search parameter: <i>{{ searchQuery }}</i>
+</h3>
+<ng-container *ngIf="blogposts$ | async as blogposts">
+  <h5>Found result: {{ blogposts.length > 0 ? blogposts.length : 0 }}</h5>
+</ng-container>
+<app-blogpost-list [blogPosts]="blogposts$"></app-blogpost-list>
