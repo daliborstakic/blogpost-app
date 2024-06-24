@@ -13,23 +13,21 @@
             id="navbarDropdown"
             role="button"
             dropdownToggle
+            #profileTrigger
           >
             {{ currentUser?.name }}
           </a>
+          <ng-container *ngIf="currentUser">
+            <app-mini-profile
+              [user]="currentUser"
+              [triggerElementRef]="profileTrigger"
+            ></app-mini-profile>
+          </ng-container>
           <ul
             *dropdownMenu
             class="dropdown-menu shadow"
             aria-labelledby="navbarDropdown"
           >
-            <li>
-              <a class="dropdown-item" #profileTrigger>Profile</a>
-            </li>
-            <ng-container *ngIf="currentUser">
-              <app-mini-profile
-                [user]="currentUser"
-                [triggerElementRef]="profileTrigger"
-              ></app-mini-profile>
-            </ng-container>
             <li>
               <a
                 class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover dropdown-item"
