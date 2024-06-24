@@ -1,4 +1,4 @@
-# Blog Application
+# Blog Application 📄
 
 This project is a full-stack application that allows users to create blogs, comment on them, and like them. The front-end is built using Angular, and the back-end is developed with Express.js.
 
